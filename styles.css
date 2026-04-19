@@ -1,0 +1,462 @@
+:root {
+  /* MILITARY CAMO THEME - Light Theme Defaults */
+  --bg-color: #e4e9d8;
+  --surface-color: #ffffff;
+  --text-primary: #1c2b1e;
+  --text-muted: #536955;
+  --border-color: #cbd5c5;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --input-bg: #f4f6f0;
+  --input-border: #b5c2ad;
+  /* Tactical/Striking Orange Accent */
+  --accent: #d97706; /* Striking amber */
+  --accent-hover: #b45309;
+  --accent-light: rgba(217, 119, 6, 0.15);
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 15px rgba(217, 119, 6, 0.05);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  /* Military Dark Camo Defaults */
+  --bg-color: #1a2216;
+  --surface-color: #232d1e;
+  --text-primary: #ebf5df;
+  --text-muted: #9ab095;
+  --border-color: #3f4f34;
+  --glass-bg: rgba(35, 45, 30, 0.9);
+  --input-bg: #1a2216;
+  --input-border: #4d5c41;
+  /* Tactical Yellow/Gold in dark mode */
+  --accent: #eab308; 
+  --accent-hover: #facc15;
+  --accent-light: rgba(234, 179, 8, 0.15);
+  
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-glow: 0 0 15px rgba(234, 179, 8, 0.08); /* Glow effect for cards */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: var(--transition);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Procedural CSS Camo Background Texture */
+.camo-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.12;
+  background: 
+    radial-gradient(circle at 10% 20%, #4b5320 20%, transparent 21%),
+    radial-gradient(circle at 80% 40%, #556b2f 25%, transparent 26%),
+    radial-gradient(circle at 40% 70%, #6b8e23 15%, transparent 16%),
+    radial-gradient(circle at 70% 90%, #3e4518 22%, transparent 23%);
+  background-size: 300px 300px;
+  transition: opacity 0.3s ease;
+}
+
+[data-theme="dark"] .camo-overlay {
+  opacity: 0.25; /* Slightly stronger camo in dark mode */
+  background: 
+    radial-gradient(circle at 10% 20%, #171d13 20%, transparent 21%),
+    radial-gradient(circle at 80% 40%, #2f3a26 25%, transparent 26%),
+    radial-gradient(circle at 40% 70%, #1e2518 15%, transparent 16%),
+    radial-gradient(circle at 70% 90%, #2d3824 22%, transparent 23%);
+  background-size: 300px 300px;
+}
+
+.app-container {
+  max-width: 600px; /* Optimized for mobile / Samsung Flip 6 */
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px;
+  position: sticky;
+  top: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--accent); /* Tactical thick border */
+  z-index: 10;
+}
+
+.logo-area h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+}
+
+.logo-area span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent); /* Pop of color in the subtitle */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px; /* Tighter tactical look instead of round */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cards */
+.card {
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.tactical-glow {
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+.card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent);
+  border-radius: 2px;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background-color: var(--accent);
+  color: var(--bg-color); /* To ensure contrast */
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition);
+  margin-top: 8px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2); /* Tactical chunky button */
+}
+
+.btn-primary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 rgba(0,0,0,0.2);
+}
+
+.btn-primary i {
+  font-size: 1.2rem;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0 8px;
+  gap: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--accent-light);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Output Section */
+.output-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.output-card {
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.output-header {
+  padding: 10px 16px;
+  background-color: var(--input-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-header h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.badge {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: 4px; /* Hard edges for military feel */
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.copy-btn {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.copy-btn:hover {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn.copied {
+  color: #10b981;
+  border-color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+[data-theme="dark"] .copy-btn.copied {
+  color: #34d399;
+}
+
+.output-card textarea {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.output-card textarea:focus {
+  outline: none;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-top: 4px solid var(--accent);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.modal-header h2 {
+  margin-bottom: 0;
+}
+
+/* Footer Boxed Style */
+.footer {
+  text-align: center;
+}
+
+.footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Avatar Styling */
+.footer-avatar { 
+  width: 60px; 
+  height: 60px; 
+  border-radius: 50%; 
+  border: 3px solid var(--accent); /* Thicker border */
+  margin-bottom: 12px; 
+}
+
+/* Anchor Links */
+.footer a { 
+  color: var(--accent); 
+  text-decoration: none; 
+  font-weight: 700;
+}
+
+.footer p {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+/* Text Muted */
+.footer .text-muted {
+  color: var(--text-muted);
+}
+
+.mt-2 {
+  margin-top: 16px;
+}

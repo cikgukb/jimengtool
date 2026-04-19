@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ms" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title data-i18n="pageTitle">Seedance Prompt Gen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Camouflage tactical background element -->
+    <div class="camo-overlay"></div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-area">
+                <h1 data-i18n="appTitle">Seedance<br><span>Prompt Generator</span></h1>
+            </div>
+            <div class="header-actions">
+                <button id="langToggle" class="icon-btn" title="Tukar Bahasa" data-i18n-title="langToggle">
+                    <span id="langText" style="font-size:0.85rem; font-weight:800; letter-spacing: 0.5px;">EN</span>
+                </button>
+                <button id="themeToggle" class="icon-btn" title="Tukar Tema" data-i18n-title="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="settingsBtn" class="icon-btn" title="Tetapan" data-i18n-title="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Form -->
+            <section class="card input-section tactical-glow">
+                <h2 data-i18n="binaPrompt">Bina Prompt Video</h2>
+                <div class="form-group">
+                    <label for="topic" data-i18n="labelTopic">Topik Perbincangan</label>
+                    <input type="text" id="topic" data-i18n-placeholder="placeholderTopic" placeholder="Cth: Senjata Pemasaran untuk SME" required>
+                </div>
+                <div class="form-group">
+                    <label for="tone" data-i18n="labelTone">Tone / Mood</label>
+                    <input type="text" id="tone" data-i18n-placeholder="placeholderTone" placeholder="Cth: Tegas, Bersemangat, Taktikal" required>
+                </div>
+                <div class="form-group">
+                    <label for="location" data-i18n="labelLocation">Tempat / Latar Belakang</label>
+                    <input type="text" id="location" data-i18n-placeholder="placeholderLocation" placeholder="Cth: Pangkalan operasi, medan perang, ofis" required>
+                </div>
+                <div class="form-group">
+                    <label for="cta" data-i18n="labelCta">Call to Action (CTA)</label>
+                    <input type="text" id="cta" data-i18n-placeholder="placeholderCta" placeholder="Cth: Masuk melapor di link bawah sekarang" required>
+                </div>
+                
+                <button id="generateBtn" class="btn-primary" data-i18n="generateBtn">
+                    <span>Jana 3 Batch</span> <i class="fas fa-fighter-jet"></i>
+                </button>
+                
+                <div id="loadingIndicator" class="loading-state hidden">
+                    <div class="spinner"></div>
+                    <p data-i18n="loadingText">Menjana koordinat prompt dengan AI...</p>
+                </div>
+            </section>
+
+            <!-- Output Section -->
+            <section id="outputSection" class="output-section hidden">
+                <h2 data-i18n="outputTitle">Output Prompt (Jimeng / Seedance)</h2>
+                
+                <!-- Batch 1 -->
+                <div class="output-card tactical-glow">
+                    <div class="output-header">
+                        <h3>Batch 1 <span class="badge">Hook</span></h3>
+                        <button class="copy-btn" data-target="out1" data-i18n="copy"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <textarea id="out1" readonly></textarea>
+                </div>
+
+                <!-- Batch 2 -->
+                <div class="output-card tactical-glow">
+                    <div class="output-header">
+                        <h3>Batch 2 <span class="badge">Solution</span></h3>
+                        <button class="copy-btn" data-target="out2" data-i18n="copy"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <textarea id="out2" readonly></textarea>
+                </div>
+
+                <!-- Batch 3 -->
+                <div class="output-card tactical-glow">
+                    <div class="output-header">
+                        <h3>Batch 3 <span class="badge">CTA</span></h3>
+                        <button class="copy-btn" data-target="out3" data-i18n="copy"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <textarea id="out3" readonly></textarea>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer card tactical-glow" style="margin: 0 20px 24px 20px; padding-top: 20px; padding-bottom: 20px;">
+            <div class="container">
+                <img src="https://i.ibb.co/CKs7VZwJ/Logo-Cikgukb.png" alt="CikguKB" class="footer-avatar">
+                <p>Dibina dengan ❤️ oleh <strong>CikguKB</strong></p>
+                <a href="https://cikgukb.my/" target="_blank">@CikguKB</a>
+                <p class="text-muted mt-2" style="font-size:0.8rem;">© <span id="year"></span> Hak cipta terpelihara.<br>KB Beyond Creative.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content card tactical-glow">
+            <div class="modal-header">
+                <h2 data-i18n="settingsModalTitle">Tetapan API Taktikal</h2>
+                <button id="closeModal" class="icon-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <p class="text-muted" style="margin-bottom: 20px; font-size: 0.9rem;" data-i18n="settingsModalDesc">Setup Replicate API Key anda di sini. Disimpan ke LocalStorage pusat arahan.</p>
+            
+            <div class="form-group">
+                <label for="apiKey" data-i18n="labelApiKey">Replicate API Key</label>
+                <input type="password" id="apiKey" placeholder="r8_...">
+            </div>
+            <div class="form-group">
+                <label for="modelName" data-i18n="labelModelName">Replicate Model Endpoint (Owner/Model)</label>
+                <input type="text" id="modelName" placeholder="Cth: meta/meta-llama-3-70b-instruct">
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;" data-i18n="modelHelp">Jika model spesifik digunakan, pastikan URL endpoint yang sah.</p>
+            </div>
+            
+            <button id="saveSettingsBtn" class="btn-primary" style="margin-top: 10px;" data-i18n="saveSettingsBtn">Simpan Konfigurasi</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
