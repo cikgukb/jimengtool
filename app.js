@@ -299,9 +299,17 @@ FORMAT EXAMPLE:
         let errorMsg = currentLang === 'ms' ? "Ralat API Replicate. Sila semak API Key atau nama model anda." : "Replicate API Error. Please check your API Key or model name.";
         try {
             const errorData = await response.json();
+            console.error('[DEBUG] Replicate error response:', JSON.stringify(errorData));
+            console.error('[DEBUG] HTTP Status:', response.status);
+            console.error('[DEBUG] Model used:', modelName);
+            console.error('[DEBUG] API Key (first 8 chars):', apiKey ? apiKey.substring(0, 8) + '...' : 'EMPTY');
             errorMsg = errorData.detail || errorData.error || errorMsg;
-        } catch(e) {}
-        throw new Error(errorMsg);
+        } catch(e) {
+            console.error('[DEBUG] HTTP Status:', response.status, '| Could not parse error JSON');
+            console.error('[DEBUG] Model used:', modelName);
+            console.error('[DEBUG] API Key (first 8 chars):', apiKey ? apiKey.substring(0, 8) + '...' : 'EMPTY');
+        }
+        throw new Error(`[${response.status}] ${errorMsg}`);
     }
 
     let prediction = await response.json();
