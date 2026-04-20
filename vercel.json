@@ -1,8 +1,16 @@
 {
+  "buildCommand": null,
+  "installCommand": null,
+  "framework": null,
+  "outputDirectory": null,
   "rewrites": [
     {
       "source": "/v1/:path*",
       "destination": "https://api.replicate.com/v1/:path*"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
     }
   ]
 }
