@@ -9,15 +9,24 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 
 // Proxy /v1 requests to Replicate API
+// NOTE: Express strips the '/v1' prefix when mounted with app.use('/v1', ...).
+// So the proxy sees paths like '/account' and must prepend '/v1/' back.
 app.use('/v1', createProxyMiddleware({
-    target: 'https://api.replicate.com',
+    target: 'https://api.replicate.com/v1',
     changeOrigin: true,
-    pathRewrite: {
-        '^/v1': '/v1'
-    },
-    onProxyReq: (proxyReq, req, res) => {
-        proxyReq.removeHeader('origin');
-        proxyReq.removeHeader('referer');
+    logger: console,
+    on: {
+        proxyReq: (proxyReq, req, res) => {
+            proxyReq.removeHeader('origin');
+            proxyReq.removeHeader('referer');
+            console.log(`[PROXY] ${req.method} ${req.originalUrl} -> ${proxyReq.protocol}//${proxyReq.getHeader('host')}${proxyReq.path}`);
+        },
+        proxyRes: (proxyRes, req, res) => {
+            console.log(`[PROXY RES] ${proxyRes.statusCode} for ${req.originalUrl}`);
+        },
+        error: (err, req, res) => {
+            console.error('[PROXY ERROR]', err.message);
+        }
     }
 }));
 

@@ -1,2 +1,28 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Environment & secrets
 .env
+.env.local
+*.key
+*.pem
+
+# Claude Code session data (may contain command history with secrets)
+.claude/
+
+# Logs
+*.log
+server.log
+
+# Debug / test scratch files
+debug-proxy.js
+full-flow-test.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

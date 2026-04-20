@@ -278,12 +278,12 @@ RULES:
 FORMAT EXAMPLE:
 @cikgukb, standing in ${location || "an office"}, tired expression, nods slowly. Says: "${currentLang === 'ms' ? 'Kos naik... korang rasa tak?' : 'Costs are rising... do you feel it?'}" Medium shot, eye-level. Warm natural light, sincere tone.|||@cikgukb, standing in ${location || "an office"}, expression brightens, nods confident. Says: "${currentLang === 'ms' ? 'Lepas aku jumpa Kit Jimat Cermat ni...' : 'Since I found this Thrift Kit...'}" Medium shot, slight lean forward. Warm light.|||@cikgukb, in ${location || "an office"}, confident smile, points directly at camera. Says: "${currentLang === 'ms' ? 'Klik link bawah ni sekarang.' : 'Click the link below right now.'}" Close-up shot, eye-level. Bright warm light, energetic finish.`;
 
-    const proxyUrl = \`/v1/models/\${modelName}/predictions\`;
+    const proxyUrl = `/v1/models/${modelName}/predictions`;
 
     const response = await fetch(proxyUrl, {
         method: "POST",
         headers: {
-            "Authorization": \`Bearer \${apiKey}\`,
+            "Authorization": `Bearer ${apiKey}`,
             "Content-Type": "application/json",
             "Prefer": "wait"
         },
@@ -309,11 +309,11 @@ FORMAT EXAMPLE:
     while (prediction.status !== "succeeded" && prediction.status !== "failed" && prediction.status !== "canceled") {
         await new Promise(r => setTimeout(r, 1000));
         
-        const pollProxyUrl = \`/v1/predictions/\${prediction.id}\`;
+        const pollProxyUrl = `/v1/predictions/${prediction.id}`;
         
         const res = await fetch(pollProxyUrl, {
             headers: {
-                "Authorization": \`Bearer \${apiKey}\`,
+                "Authorization": `Bearer ${apiKey}`,
                 "Content-Type": "application/json",
             }
         });
